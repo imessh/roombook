@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Rooms: any signed-in employee can read. Writes are managed by an admin
+    // via the Firebase console / seed script, not through the app UI.
+    match /rooms/{roomId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Bookings: any signed-in employee can read, create, update, or delete.
+    // The app's client-side transaction (see lib/bookings.ts) re-checks for
+    // overlaps immediately before every write, and required fields are
+    // validated here as a second line of defense.
+    match /bookings/{bookingId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasAll(
+          ['roomId', 'roomName', 'name', 'date', 'startTime', 'endTime', 'category']
+        )
+        && request.resource.data.startTime < request.resource.data.endTime;
+
+      allow update: if request.auth != null
+        && request.resource.data.startTime < request.resource.data.endTime;
+
+      allow delete: if request.auth != null;
+    }
+  }
+}

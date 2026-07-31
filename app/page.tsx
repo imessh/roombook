@@ -56,14 +56,17 @@ function DashboardContent() {
         <StatCard icon={DoorOpen} label="Rooms free right now" value={Math.max(freeRooms, 0)} accent="workshop" />
       </div>
 
-      <div className="bg-card rounded-3xl shadow-card p-6">
+      <div className="bg-card rounded-[2rem] shadow-card p-6 border border-slate-100">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-semibold text-ink-900">Today's bookings</h2>
+          <div>
+            <h2 className="font-semibold text-ink-900">Today's bookings</h2>
+            <p className="text-sm text-ink-400 mt-1">A quick look at what’s happening in each room.</p>
+          </div>
           <Link
             href="/calendar"
-            className="focus-ring flex items-center gap-1 text-sm font-medium text-brand hover:underline"
+            className="focus-ring inline-flex items-center gap-2 rounded-2xl bg-brand text-white px-4 py-2 text-sm font-semibold shadow-soft hover:bg-brand-dark transition-colors"
           >
-            Open calendar <ArrowRight size={14} />
+            <CalendarDays size={16} /> Open calendar
           </Link>
         </div>
 
@@ -134,13 +137,13 @@ function StatCard({
   }[accent];
 
   return (
-    <div className="bg-card rounded-3xl shadow-card p-5 flex items-center gap-4">
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${accentClasses}`}>
+    <div className="bg-card rounded-[2rem] shadow-card p-5 flex items-center gap-4 border border-slate-100">
+      <div className={`w-12 h-12 rounded-3xl flex items-center justify-center ${accentClasses}`}>
         <Icon size={20} />
       </div>
       <div>
         <p className="text-2xl font-semibold text-ink-900 leading-none">{value}</p>
-        <p className="text-xs text-ink-400 mt-1">{label}</p>
+        <p className="text-xs text-ink-500 mt-1">{label}</p>
       </div>
     </div>
   );

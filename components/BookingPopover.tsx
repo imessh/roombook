@@ -5,7 +5,15 @@ import { minutesToLabel, toMinutes, formatPrettyDate, getBookingStatus } from "@
 import { RoomAvatar } from "./RoomAvatar";
 import { StatusBadge } from "./StatusBadge";
 import { Modal } from "./Modal";
-import { Pencil, Trash2, Calendar, Clock, StickyNote } from "lucide-react";
+import { Edit3, Trash2, CalendarDays, Clock2, StickyNote, Tag } from "lucide-react";
+
+const CATEGORY_LABELS = {
+  Meeting: "Business meeting",
+  Interview: "Candidate interview",
+  Training: "Team training",
+  Workshop: "Hands-on workshop",
+  Other: "Flexible booking",
+};
 
 export function BookingPopover({
   booking,
@@ -38,17 +46,25 @@ export function BookingPopover({
       </div>
 
       <div className="space-y-3 mb-5">
-        <div className={`rounded-2xl px-4 py-3 ${styles.bg}`}>
-          <p className="text-xs font-medium text-ink-500 mb-0.5">Category</p>
-          <p className={`text-sm font-semibold ${styles.text}`}>{booking.category}</p>
+        <div className={`rounded-3xl px-4 py-3 border border-black/5 ${styles.bg}`}>
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`inline-flex items-center justify-center w-9 h-9 rounded-2xl bg-white/90 ${styles.text} shadow-sm`}>
+              <Tag size={16} className="stroke-current" />
+            </span>
+            <div>
+              <p className="text-xs font-medium text-ink-500">Category</p>
+              <p className={`text-sm font-semibold ${styles.text}`}>{booking.category}</p>
+            </div>
+          </div>
+          <p className="text-sm text-ink-500">{CATEGORY_LABELS[booking.category]}</p>
         </div>
 
         <div className="flex items-center gap-2 text-sm text-ink-700 px-1">
-          <Calendar size={16} className="text-ink-400" />
+          <CalendarDays size={16} className="text-ink-400" />
           {formatPrettyDate(booking.date)}
         </div>
         <div className="flex items-center gap-2 text-sm text-ink-700 px-1">
-          <Clock size={16} className="text-ink-400" />
+          <Clock2 size={16} className="text-ink-400" />
           {minutesToLabel(toMinutes(booking.startTime))} – {minutesToLabel(toMinutes(booking.endTime))}
         </div>
         {booking.note && (
@@ -59,20 +75,20 @@ export function BookingPopover({
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
           type="button"
           onClick={onEdit}
-          className="focus-ring flex-1 flex items-center justify-center gap-2 rounded-xl bg-brand-light text-brand font-medium text-sm py-2.5 hover:bg-brand hover:text-white transition-colors"
+          className="focus-ring flex items-center justify-center gap-2 rounded-2xl bg-brand text-white font-semibold text-sm py-3 hover:bg-brand-dark transition-colors"
         >
-          <Pencil size={15} /> Edit
+          <Edit3 size={16} /> Edit booking
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="focus-ring flex-1 flex items-center justify-center gap-2 rounded-xl bg-category-otherBg text-category-other font-medium text-sm py-2.5 hover:bg-category-other hover:text-white transition-colors"
+          className="focus-ring flex items-center justify-center gap-2 rounded-2xl border border-category-otherBg bg-white text-category-other font-semibold text-sm py-3 hover:bg-category-otherBg transition-colors"
         >
-          <Trash2 size={15} /> Cancel
+          <Trash2 size={16} /> Cancel booking
         </button>
       </div>
     </Modal>

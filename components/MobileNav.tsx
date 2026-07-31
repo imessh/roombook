@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, CalendarDays, Users, ClipboardList } from "lucide-react";
+import { LayoutDashboard, CalendarDays, DoorOpen, ListChecks } from "lucide-react";
 import clsx from "clsx";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Overview", icon: Home },
+  { href: "/", label: "Overview", icon: LayoutDashboard },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/rooms", label: "Rooms", icon: Users },
-  { href: "/bookings", label: "Bookings", icon: ClipboardList },
+  { href: "/rooms", label: "Rooms", icon: DoorOpen },
+  { href: "/bookings", label: "Bookings", icon: ListChecks },
 ];
 
 export function MobileNav() {

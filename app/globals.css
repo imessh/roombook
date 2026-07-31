@@ -10,8 +10,8 @@
 
 html,
 body {
-  background: #F8FAFF;
-  color: #111827;
+  background: #eef0f7;
+  color: #1b1e2b;
 }
 
 * {
@@ -32,9 +32,9 @@ body {
   outline: none;
 }
 .focus-ring:focus-visible {
-  outline: 2px solid #4C1D95;
+  outline: 2px solid #3e7bfa;
   outline-offset: 2px;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .closed-stripes {

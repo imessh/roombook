@@ -90,7 +90,7 @@ function CalendarPageContent() {
           <button
             type="button"
             onClick={() => openCreate()}
-            className="focus-ring flex items-center gap-2 rounded-2xl bg-brand text-white px-4 py-2.5 text-sm font-semibold shadow-soft hover:bg-brand-dark transition-colors"
+            className="focus-ring flex items-center gap-2 bg-brand text-white rounded-2xl shadow-soft px-4 py-2.5 text-sm font-semibold hover:bg-brand-dark"
           >
             <Plus size={16} /> Add New
           </button>
@@ -101,18 +101,16 @@ function CalendarPageContent() {
       {loading ? (
         <div className="bg-card rounded-3xl shadow-card h-96 animate-pulse" />
       ) : (
-        <div className="rounded-[2rem] border border-slate-100 bg-white shadow-card p-4">
-          <RoomTimeline
-            rooms={visibleRooms}
-            bookings={bookings}
-            dateKey={dateKey}
-            onOpenBooking={(b) => {
-              setSelectedBooking(b);
-              setPopoverOpen(true);
-            }}
-            onCreateBooking={(roomId, startTime) => openCreate(roomId, startTime)}
-          />
-        </div>
+        <RoomTimeline
+          rooms={visibleRooms}
+          bookings={bookings}
+          dateKey={dateKey}
+          onOpenBooking={(b) => {
+            setSelectedBooking(b);
+            setPopoverOpen(true);
+          }}
+          onCreateBooking={(roomId, startTime) => openCreate(roomId, startTime)}
+        />
       )}
 
       <BookingPopover

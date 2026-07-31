@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Home,
+  LayoutDashboard,
   CalendarDays,
-  Users,
-  ClipboardList,
+  DoorOpen,
+  ListChecks,
   LogOut,
 } from "lucide-react";
 import clsx from "clsx";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Overview", icon: Home },
+  { href: "/", label: "Overview", icon: LayoutDashboard },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/rooms", label: "Rooms", icon: Users },
-  { href: "/bookings", label: "My Bookings", icon: ClipboardList },
+  { href: "/rooms", label: "Rooms", icon: DoorOpen },
+  { href: "/bookings", label: "My Bookings", icon: ListChecks },
 ];
 
 export function Sidebar() {

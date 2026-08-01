@@ -1,80 +1,97 @@
-# RoomBook — Meeting Room Reservations
+# RoomBook — Meeting Room Reservation System
 
-A Next.js 16 + TypeScript app for reserving office meeting rooms and halls, built on
-Firebase (Auth + Firestore) and deployable to Vercel in a few minutes.
+A modern web application for reserving office meeting rooms and halls.
 
 ## Features
 
-- Employee login / signup (Firebase Auth, email + password)
-- Dashboard with today's bookings and quick stats
-- Calendar view — rooms as rows, time as columns, colored booking pills, live "now" line
-- Room directory with search, capacity, location, amenities, and per-room schedule
-- Book a slot by clicking an open space on the timeline, or via **Add New**
-- Edit and cancel existing bookings
-- **Overlap-safe booking**: every create/update runs inside a Firestore transaction
-  that re-checks the room's bookings for that date immediately before writing, so two
-  people can never double-book the same room/time — even if they click at the same instant
-- Status badges: Available / Reserved / Ongoing
-- Responsive layout (desktop, tablet, mobile) with a bottom tab bar on small screens
-- Keyboard-accessible: every interactive control is reachable and operable via keyboard,
-  with visible focus states and `Escape`-to-close dialogs
+* User registration and login
+* Dashboard with today's bookings
+* Calendar-based room booking
+* Room availability and status
+* Search and filter rooms
+* Create, edit, and cancel bookings
+* Double-booking prevention
+* Room capacity, location, and amenities
+* Responsive design for desktop and mobile
 
-## 1. Create your Firebase project
+## Tech Stack
 
-1. Go to [console.firebase.google.com](https://console.firebase.google.com) → **Add project**.
-2. In **Build → Authentication**, click **Get started**, then enable the **Email/Password** sign-in method.
-3. In **Build → Firestore Database**, click **Create database** (start in production mode).
-4. In **Project settings → General → Your apps**, click the **</>** (Web) icon to register a web app, and copy the config values shown.
-5. In the Firestore console, open the **Rules** tab and paste in the contents of `firestore.rules` from this repo, then **Publish**.
+* Next.js 16
+* TypeScript
+* Tailwind CSS
+* Firebase Authentication
+* Cloud Firestore
+* Vercel
 
-## 2. Configure environment variables
+## Getting Started
 
-```bash
-cp .env.local.example .env.local
-```
-
-Fill in the six `NEXT_PUBLIC_FIREBASE_*` values from step 1.4.
-
-## 3. Install, seed, and run locally
+### 1. Install dependencies
 
 ```bash
 npm install
-npm run seed   # creates 5 demo rooms + 6 demo bookings for "today"
+```
+
+### 2. Configure Firebase
+
+Create a `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+```
+
+### 3. Run the application
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), click **Create an account** to sign up as an employee, then sign in.
+Open http://localhost:3000 in your browser.
 
-> The seed script is idempotent — if rooms or bookings already exist it won't duplicate them, so it's safe to re-run.
+### 4. Add demo data
 
-## 4. Deploy to Vercel
+To add sample rooms and bookings:
 
-1. Push this project to a GitHub/GitLab/Bitbucket repo.
-2. In [vercel.com](https://vercel.com), **Add New → Project**, import the repo.
-3. Under **Environment Variables**, add the same six `NEXT_PUBLIC_FIREBASE_*` keys from your `.env.local`.
-4. Deploy. Vercel auto-detects Next.js — no extra build config needed.
-5. In the Firebase console, go to **Authentication → Settings → Authorized domains** and add your `*.vercel.app` domain (and any custom domain) so login works in production.
-
-## Project structure
-
-```
-app/                Next.js App Router pages (login, signup, dashboard, calendar, rooms, bookings)
-components/          UI components (calendar grid, modals, cards, nav)
-lib/                 Firebase client, types, date helpers, Firestore data layer, auth context
-scripts/seed.ts      Demo data seed script
-firestore.rules       Security rules — deploy these to your Firestore project
+```bash
+npm run seed
 ```
 
-## Data model
+## Firebase
 
-**rooms**: `name, location, capacity, amenities[], openTime, closeTime`
+The application uses Firebase for:
 
-**bookings**: `roomId, roomName, name, date (YYYY-MM-DD), startTime, endTime (HH:mm 24h), category, note, createdAt, createdBy`
+* Authentication
+* Room data
+* Booking data
+* Firestore security
 
-## Notes on the overlap guard
+Make sure Email/Password authentication and Firestore are enabled in your Firebase project.
 
-`lib/bookings.ts` exposes `createBookingSafely` and `updateBookingSafely`. Both wrap
-their write in `runTransaction`, re-query all bookings for that `roomId` + `date`, and
-throw `BookingConflictError` if the requested range overlaps any existing booking
-(excluding the booking being edited). This is enforced server-side by Firestore's
-transaction guarantees, not just in the UI — so it holds even under concurrent requests.
+## Booking System
+
+Room bookings include overlap prevention, so users cannot reserve the same room for overlapping time periods.
+
+## Project Structure
+
+```text
+app/             Application pages and routes
+components/      Reusable UI components
+lib/             Firebase and application logic
+scripts/         Database seed scripts
+public/          Images and static assets
+firestore.rules  Firestore security rules
+```
+
+## Deployment
+
+The application can be deployed to Vercel.
+
+Add the Firebase environment variables to the Vercel project before deployment.
+
+## License
+
+This project was developed as a university software project.

@@ -6,8 +6,8 @@ import { AuthProvider } from "@/lib/auth-context";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "RoomBook — Meeting Room Reservations",
-  description: "Reserve meeting rooms and halls across the office.",
+  title: "RoomBook — Smart Meeting Room Scheduling",
+  description: "Reserve meeting rooms, share availability, and manage bookings with ease.",
 };
 
 export default function RootLayout({

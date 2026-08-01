@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { CalendarDays, DoorOpen, Clock, ArrowRight, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { RouteGuard } from "@/components/RouteGuard";
 import { UserMenu } from "@/components/UserMenu";
 import { UserAvatar } from "@/components/UserAvatar";
 import { RoomAvatar } from "@/components/RoomAvatar";
@@ -65,9 +64,14 @@ function DashboardContent() {
               {greeting()}, {firstName} 👋
             </h1>
             <p className="text-sm text-ink-400 mt-1">{formatPrettyDate(todayKey)} — your live floor timeline and today’s bookings are below.</p>
+            {!user && (
+              <p className="text-sm text-ink-500 mt-2">
+                Browse rooms, calendar, and booking details in view-only mode. Sign in to add or edit reservations.
+              </p>
+            )}
           </div>
         </div>
-        <div className="absolute right-0 top-0 flex justify-end w-full md:static md:w-auto">
+        <div className="absolute right-0 top-0 hidden w-full justify-end md:flex md:static md:w-auto">
           <UserMenu />
         </div>
       </header>
@@ -77,10 +81,9 @@ function DashboardContent() {
         <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl space-y-3 text-center lg:text-left">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Today at a glance</p>
-            <h2 className="text-2xl font-semibold text-ink-900">Floor activity and bookings in one view.</h2>
-            <p className="text-sm text-ink-500">A quick snapshot of room usage and upcoming bookings so the day feels easier to manage.</p>
+            <h2 className="text-2xl font-semibold text-ink-900">See room availability and meeting plans in one view.</h2>
+            <p className="text-sm text-ink-500">A clear snapshot of today's workspace activity, so your schedule stays calm and organized.</p>
           </div>
-
           <div className="grid gap-3 sm:grid-cols-3 justify-items-stretch w-full sm:w-auto">
             <div className="w-full rounded-3xl bg-sidebar-purple/10 p-4 text-sidebar-purple border border-sidebar-purple/20">
               <p className="text-3xl font-semibold">{rooms.length}</p>
@@ -100,11 +103,11 @@ function DashboardContent() {
         <div className="mt-6 rounded-3xl bg-sidebar-purple/5 p-5 shadow-sm border border-sidebar-purple/20">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-center sm:text-left">
-              <p className="text-sm font-semibold text-sidebar-purple/80">Next booking</p>
+              <p className="text-sm font-semibold text-sidebar-purple/80">Upcoming meeting</p>
               <p className="mt-1 text-lg font-semibold text-ink-900">{nextBooking ? nextBooking.roomName : "No upcoming bookings"}</p>
             </div>
             <div className="inline-flex rounded-2xl bg-sidebar-purple/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sidebar-purple">
-              {nextBooking ? "Coming up" : "Empty"}
+              {nextBooking ? "Coming up" : "Available"}
             </div>
           </div>
           {nextBooking ? (
@@ -116,12 +119,12 @@ function DashboardContent() {
               </div>
               <div className="flex justify-center sm:justify-end">
                 <Link href="/calendar" className="inline-flex items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-sidebar-purple/90">
-                  Open calendar
+                  View calendar
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="mt-4 text-sm text-ink-500 text-center sm:text-left">No bookings are scheduled for the rest of today. Use the calendar to add the next meeting.</div>
+            <div className="mt-4 text-sm text-ink-500 text-center sm:text-left">No meetings are scheduled for the rest of today. Use the calendar to add the next one.</div>
           )}
         </div>
       </div>
@@ -208,12 +211,12 @@ function DashboardContent() {
       {/* Upcoming bookings today */}
       <div className="bg-card rounded-3xl shadow-card p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-semibold text-ink-900">Today's bookings</h2>
+          <h2 className="font-semibold text-ink-900">Today's agenda</h2>
           <Link
             href="/calendar"
             className="focus-ring flex items-center gap-1 text-sm font-medium text-brand hover:underline"
           >
-            Open calendar <ArrowRight size={14} />
+            View full calendar <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -299,9 +302,5 @@ function StatCard({
 }
 
 export default function DashboardPage() {
-  return (
-    <RouteGuard>
-      <DashboardContent />
-    </RouteGuard>
-  );
+  return <DashboardContent />;
 }

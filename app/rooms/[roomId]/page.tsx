@@ -5,7 +5,6 @@ import { useAuth } from "@/lib/auth-context";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Users, MapPin, Plus } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { RouteGuard } from "@/components/RouteGuard";
 import { DateNav } from "@/components/DateNav";
 import { RoomAvatar } from "@/components/RoomAvatar";
 import { RoomTimeline } from "@/components/RoomTimeline";
@@ -117,7 +116,11 @@ function RoomDetailContent() {
             setSelectedBooking(b);
             setPopoverOpen(true);
           }}
-          onCreateBooking={(_roomId, startTime) => {
+          onCreateBooking={(roomId, startTime) => {
+            if (!user) {
+              router.push("/login");
+              return;
+            }
             setEditingBooking(null);
             setPrefillStart(startTime);
             setFormOpen(true);
@@ -173,9 +176,5 @@ function RoomDetailContent() {
 }
 
 export default function RoomDetailPage() {
-  return (
-    <RouteGuard>
-      <RoomDetailContent />
-    </RouteGuard>
-  );
+  return <RoomDetailContent />;
 }

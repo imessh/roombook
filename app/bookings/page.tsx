@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { AppShell } from "@/components/AppShell";
-import { RouteGuard } from "@/components/RouteGuard";
 import { useAuth } from "@/lib/auth-context";
 import { UserMenu } from "@/components/UserMenu";
 import { RoomAvatar } from "@/components/RoomAvatar";
@@ -54,7 +53,9 @@ function BookingsContent() {
           <h1 className="text-2xl font-semibold text-ink-900">My Bookings</h1>
           <p className="text-sm text-ink-400 mt-0.5">All upcoming reservations across every room.</p>
         </div>
-        <UserMenu />
+        <div className="hidden md:flex">
+          <UserMenu />
+        </div>
       </header>
 
       {loading ? (
@@ -161,9 +162,5 @@ function BookingsContent() {
 }
 
 export default function BookingsPage() {
-  return (
-    <RouteGuard>
-      <BookingsContent />
-    </RouteGuard>
-  );
+  return <BookingsContent />;
 }

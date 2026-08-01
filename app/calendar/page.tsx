@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { Plus } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { RouteGuard } from "@/components/RouteGuard";
 import { DateNav } from "@/components/DateNav";
 import { RoomFilterDropdown } from "@/components/RoomFilterDropdown";
 import { SearchInput } from "@/components/SearchInput";
@@ -25,6 +25,7 @@ function CalendarPageContent() {
   const [roomFilter, setRoomFilter] = useState<string | "all">("all");
   const [search, setSearch] = useState("");
 
+  const router = useRouter();
   const { user } = useAuth();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -58,6 +59,10 @@ function CalendarPageContent() {
   }, [rooms, roomFilter, search]);
 
   function openCreate(roomId?: string, startTime?: string) {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     setEditingBooking(null);
     setPrefill({ roomId, startTime });
     setFormOpen(true);
@@ -100,7 +105,9 @@ function CalendarPageContent() {
           >
             <Plus size={16} /> Add New
           </button>
-          <UserMenu />
+          <div className="hidden md:flex">
+            <UserMenu />
+          </div>
         </div>
       </header>
 
@@ -157,9 +164,5 @@ function CalendarPageContent() {
 }
 
 export default function CalendarPage() {
-  return (
-    <RouteGuard>
-      <CalendarPageContent />
-    </RouteGuard>
-  );
+  return <CalendarPageContent />;
 }

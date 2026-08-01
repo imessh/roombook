@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -46,12 +47,15 @@ export function Sidebar() {
       className="hidden md:flex flex-col items-center gap-3 w-20 shrink-0 py-6 relative z-40"
       aria-label="Primary"
     >
-      <div
-        className="w-11 h-11 rounded-2xl text-white flex items-center justify-center font-bold text-lg shadow-soft mb-4"
-        style={{ background: "linear-gradient(135deg, #8B5CF6, #6366F1)" }}
-      >
-        R
-      </div>
+      <Link href="/" className="relative w-11 h-11 rounded-2xl overflow-hidden shadow-soft mb-4 focus-ring">
+        <Image
+          src="/room.jpg"
+          alt="RoomBook logo"
+          fill
+          className="object-cover"
+          sizes="44px"
+        />
+      </Link>
 
       <nav className="flex flex-col gap-3" role="navigation">
         {NAV_ITEMS.map((item) => {

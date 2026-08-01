@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Users, MapPin, Building2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { RouteGuard } from "@/components/RouteGuard";
 import { SearchInput } from "@/components/SearchInput";
 import { UserMenu } from "@/components/UserMenu";
 import { fetchRooms, fetchBookingsForDate } from "@/lib/bookings";
@@ -60,7 +59,9 @@ function RoomsContent() {
           <div className="min-w-0 w-full sm:w-auto">
             <SearchInput value={search} onChange={setSearch} placeholder="Search rooms" />
           </div>
-          <UserMenu />
+          <div className="hidden md:flex">
+            <UserMenu />
+          </div>
         </div>
       </header>
 
@@ -152,9 +153,5 @@ function RoomsContent() {
 }
 
 export default function RoomsPage() {
-  return (
-    <RouteGuard>
-      <RoomsContent />
-    </RouteGuard>
-  );
+  return <RoomsContent />;
 }

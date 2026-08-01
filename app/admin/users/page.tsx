@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { AdminGuard } from "@/components/AdminGuard";
+import { useAuth } from "@/lib/auth-context";
 import { fetchUsers, updateUserRole, deleteUser } from "@/lib/users";
 import { UserProfile } from "@/lib/types";
 import { Search, ChevronRight, ShieldCheck, Trash2 } from "lucide-react";
 
 export default function AdminUsersPage() {
+  const { isOwner } = useAuth();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [search, setSearch] = useState("");
 
@@ -42,12 +44,12 @@ export default function AdminUsersPage() {
   return (
     <AdminGuard>
       <AppShell>
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 items-center text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Manage Users</p>
             <h1 className="text-3xl font-semibold text-ink-900">User directory</h1>
           </div>
-          <div className="relative max-w-sm">
+          <div className="relative w-full max-w-sm">
             <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
             <input
               value={search}
@@ -84,16 +86,24 @@ export default function AdminUsersPage() {
                       >
                         <ShieldCheck size={14} /> Promote
                       </button>
-                    ) : (
-                      !user.isOwner && (
+                    ) : user.role === "admin" ? (
+                      user.isOwner ? (
+                        <span className="inline-flex items-center gap-2 rounded-2xl border border-line bg-slate-100 px-3 py-2 text-xs font-semibold text-ink-500">
+                          Owner
+                        </span>
+                      ) : isOwner ? (
                         <button
                           onClick={() => demote(user.uid)}
                           className="inline-flex items-center gap-2 rounded-2xl border border-line bg-white px-3 py-2 text-xs font-semibold text-sidebar-purple"
                         >
                           Demote
                         </button>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 rounded-2xl border border-line bg-slate-100 px-3 py-2 text-xs font-semibold text-ink-500">
+                          Admin
+                        </span>
                       )
-                    )}
+                    ) : null}
                     <button
                       onClick={() => removeUser(user.uid)}
                       className="inline-flex items-center gap-2 rounded-2xl border border-line bg-white px-3 py-2 text-xs font-semibold text-ink-700"

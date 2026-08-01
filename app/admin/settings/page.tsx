@@ -7,7 +7,7 @@ export default function AdminSettingsPage() {
   return (
     <AdminGuard>
       <AppShell>
-        <div className="mb-6">
+        <div className="mb-6 text-center sm:text-left">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Admin Settings</p>
           <h1 className="text-3xl font-semibold text-ink-900">Settings</h1>
           <p className="text-sm text-ink-500 mt-2">Configure admin behavior and available workspace controls.</p>

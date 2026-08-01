@@ -52,27 +52,27 @@ export default function AdminPage() {
   return (
     <AppShell>
       <div className="mb-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 items-center text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Admin Panel</p>
             <h1 className="text-3xl font-semibold text-ink-900">Team administration</h1>
-            <p className="text-sm text-ink-500 mt-2">Manage users, rooms, and bookings from one place.</p>
+            <p className="text-sm text-ink-500 mt-2">Quickly get to users, rooms, and bookings from one place.</p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/admin/users" className="rounded-2xl bg-sidebar-purple px-4 py-2 text-sm font-semibold text-white">
+          <div className="hidden sm:flex flex-wrap gap-3 justify-center sm:justify-end">
+            <Link href="/admin/users" className="rounded-2xl border border-line bg-white px-4 py-2 text-sm font-semibold text-sidebar-purple hover:bg-slate-100">
               Manage Users
             </Link>
-            <Link href="/admin/rooms" className="rounded-2xl border border-line bg-white px-4 py-2 text-sm font-semibold text-sidebar-purple">
+            <Link href="/admin/rooms" className="rounded-2xl border border-line bg-white px-4 py-2 text-sm font-semibold text-sidebar-purple hover:bg-slate-100">
               Manage Rooms
             </Link>
-            <Link href="/admin/bookings" className="rounded-2xl border border-line bg-white px-4 py-2 text-sm font-semibold text-sidebar-purple">
+            <Link href="/admin/bookings" className="rounded-2xl border border-line bg-white px-4 py-2 text-sm font-semibold text-sidebar-purple hover:bg-slate-100">
               Manage Bookings
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-3xl border border-line bg-white/90 p-6 shadow-soft">
           <p className="text-sm font-semibold text-ink-500">Users</p>
           <p className="mt-2 text-3xl font-semibold text-ink-900">{users.length}</p>
@@ -87,6 +87,50 @@ export default function AdminPage() {
           <p className="text-sm font-semibold text-ink-500">Bookings</p>
           <p className="mt-2 text-3xl font-semibold text-ink-900">View all bookings</p>
           <p className="text-sm text-ink-400 mt-1">Cancel or filter bookings across the team.</p>
+        </div>
+      </div>
+
+      <div className="mt-6 sm:hidden grid gap-4">
+        <div className="rounded-3xl border border-line bg-white/95 p-6 shadow-soft flex flex-col justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Users</p>
+            <h2 className="mt-3 text-xl font-semibold text-ink-900">Manage Users</h2>
+            <p className="mt-2 text-sm text-ink-500">Promote users, demote admins, and keep your team roster updated.</p>
+          </div>
+          <Link
+            href="/admin/users"
+            className="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
+          >
+            Open Manage Users
+          </Link>
+        </div>
+
+        <div className="rounded-3xl border border-line bg-white/95 p-6 shadow-soft flex flex-col justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Rooms</p>
+            <h2 className="mt-3 text-xl font-semibold text-ink-900">Manage Rooms</h2>
+            <p className="mt-2 text-sm text-ink-500">Add, edit, or disable rooms with one click from the admin dashboard.</p>
+          </div>
+          <Link
+            href="/admin/rooms"
+            className="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
+          >
+            Open Manage Rooms
+          </Link>
+        </div>
+
+        <div className="rounded-3xl border border-line bg-white/95 p-6 shadow-soft flex flex-col justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Bookings</p>
+            <h2 className="mt-3 text-xl font-semibold text-ink-900">Manage Bookings</h2>
+            <p className="mt-2 text-sm text-ink-500">See all team bookings, cancel reservations, and keep schedules clean.</p>
+          </div>
+          <Link
+            href="/admin/bookings"
+            className="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
+          >
+            Open Manage Bookings
+          </Link>
         </div>
       </div>
 

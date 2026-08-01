@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, DoorOpen, ListChecks } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
+import { LayoutDashboard, CalendarDays, DoorOpen, ListChecks, ShieldCheck } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: LayoutDashboard, color: "#8B5CF6" },
@@ -13,12 +14,20 @@ const NAV_ITEMS = [
 
 export function MobileNav() {
   const pathname = usePathname();
+  const { isAdmin } = useAuth();
+  const navItems = isAdmin
+    ? [
+        ...NAV_ITEMS,
+        { href: "/admin", label: "Admin", icon: ShieldCheck, color: "#7C3AED" },
+      ]
+    : NAV_ITEMS;
+
   return (
     <nav
       className="md:hidden fixed bottom-3 left-3 right-3 glass rounded-2xl shadow-popover flex items-center justify-around py-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] z-30"
       aria-label="Primary"
     >
-      {NAV_ITEMS.map((item) => {
+      {navItems.map((item) => {
         const active = pathname === item.href;
         const Icon = item.icon;
         return (

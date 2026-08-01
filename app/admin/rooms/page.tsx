@@ -85,12 +85,12 @@ export default function AdminRoomsPage() {
   return (
     <AdminGuard>
       <AppShell>
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 items-center text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-purple/80">Manage Rooms</p>
             <h1 className="text-3xl font-semibold text-ink-900">Room inventory</h1>
           </div>
-          <button onClick={openNew} className="inline-flex items-center gap-2 rounded-2xl bg-sidebar-purple px-4 py-2 text-sm font-semibold text-white">
+          <button onClick={openNew} className="inline-flex items-center gap-2 rounded-2xl bg-sidebar-purple px-4 py-2 text-sm font-semibold text-white justify-center">
             <Plus size={16} /> Add Room
           </button>
         </div>

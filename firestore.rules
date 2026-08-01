@@ -30,12 +30,23 @@ service cloud.firestore {
         && request.resource.data.isOwner == false;
 
       allow update: if isSignedIn() && (
-        isAdmin() ||
+        // Users may update their own profile fields but cannot change role/isOwner.
         (request.auth.uid == userId
           && request.resource.data.role == resource.data.role
           && request.resource.data.isOwner == resource.data.isOwner
           && request.resource.data.name is string
           && request.resource.data.email is string)
+        ||
+        // Admins may promote normal users to admin, but only the owner can demote admins.
+        (request.auth.uid != userId && (
+          (isOwner() && request.resource.data.isOwner == resource.data.isOwner)
+          ||
+          (isAdmin() && !isOwner()
+            && resource.data.role == 'user'
+            && request.resource.data.role == 'admin'
+            && request.resource.data.isOwner == resource.data.isOwner
+          )
+        ))
       );
 
       allow delete: if isSignedIn() && isAdmin() && resource.data.isOwner != true;

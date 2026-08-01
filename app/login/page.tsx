@@ -87,7 +87,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-[2rem] bg-white/95 border border-line shadow-card p-8">
+        <div id="auth-form" className="scroll-mt-20 relative overflow-hidden rounded-[2rem] bg-white/95 border border-line shadow-card p-8">
           <div className="absolute right-[-70px] top-[-60px] h-52 w-52 rounded-full bg-sidebar-purple/20 blur-3xl" />
           <div className="absolute left-[-60px] bottom-[-40px] h-40 w-40 rounded-full bg-sidebar-blue/10 blur-3xl" />
 
@@ -112,7 +112,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <form id="auth-form" onSubmit={handleSubmit} className="mt-8 space-y-5 relative">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5 relative">
             <div>
               <label className="block text-xs font-semibold text-ink-500 mb-2" htmlFor="email">
                 Work email

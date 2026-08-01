@@ -35,7 +35,7 @@ async function main() {
   const existingRooms = await getDocs(roomsCol);
   const roomIdByName: Record<string, string> = {};
 
-  if (!existingRooms.empty) {
+  if (existingRooms.empty) {
     existingRooms.docs.forEach((d) => {
       roomIdByName[(d.data() as { name: string }).name] = d.id;
     });

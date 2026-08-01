@@ -52,11 +52,14 @@ function CalendarPageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateKey]);
 
+  const { isAdmin } = useAuth();
+
   const visibleRooms = useMemo(() => {
     return rooms
       .filter((r) => roomFilter === "all" || r.id === roomFilter)
-      .filter((r) => r.name.toLowerCase().includes(search.trim().toLowerCase()));
-  }, [rooms, roomFilter, search]);
+      .filter((r) => r.name.toLowerCase().includes(search.trim().toLowerCase()))
+      .filter((r) => isAdmin || r.enabled !== false);
+  }, [rooms, roomFilter, search, isAdmin]);
 
   function openCreate(roomId?: string, startTime?: string) {
     if (!user) {

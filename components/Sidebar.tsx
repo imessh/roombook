@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, DoorOpen, ListChecks } from "lucide-react";
+import { LayoutDashboard, CalendarDays, DoorOpen, ListChecks, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV_ITEMS = [
   {
@@ -42,6 +43,20 @@ export function Sidebar() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
 
+  const { isAdmin } = useAuth();
+  const navItems = isAdmin
+    ? [
+        ...NAV_ITEMS,
+        {
+          href: "/admin",
+          label: "Admin",
+          icon: ShieldCheck,
+          color: "#7C3AED",
+          bg: "bg-sidebar-purpleBg",
+        },
+      ]
+    : NAV_ITEMS;
+
   return (
     <aside
       className="hidden md:flex flex-col items-center gap-3 w-20 shrink-0 py-6 relative z-40"
@@ -58,7 +73,7 @@ export function Sidebar() {
       </Link>
 
       <nav className="flex flex-col gap-3" role="navigation">
-        {NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
           const isHovered = hovered === item.href;

@@ -1,5 +1,16 @@
 export type Category = "Meeting" | "Interview" | "Training" | "Workshop" | "Other";
 
+export type UserRole = "user" | "admin";
+
+export interface UserProfile {
+  uid: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  registeredAt: number;
+  isOwner?: boolean;
+}
+
 export const CATEGORIES: Category[] = [
   "Meeting",
   "Interview",
@@ -59,6 +70,9 @@ export interface Room {
   amenities: string[];
   openTime: string; // "08:00"
   closeTime: string; // "20:00"
+  description?: string;
+  floor?: string;
+  enabled?: boolean;
   colorSeed?: string;
 }
 

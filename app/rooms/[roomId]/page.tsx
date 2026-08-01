@@ -163,7 +163,7 @@ function RoomDetailContent() {
         <BookingFormModal
           open={formOpen}
           onClose={() => setFormOpen(false)}
-          rooms={[room]}
+          rooms={room ? [room] : []}
           defaultRoomId={room.id}
           defaultDate={dateKey}
           defaultStartTime={prefillStart}

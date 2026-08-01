@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal } from "./Modal";
 import { Room, Booking, Category, CATEGORIES, NewBookingInput } from "@/lib/types";
 import { createBookingSafely, updateBookingSafely, BookingConflictError } from "@/lib/bookings";
@@ -42,11 +42,16 @@ export function BookingFormModal({
   const [startTime, setStartTime] = useState(defaultStartTime ?? "09:00");
   const [endTime, setEndTime] = useState("10:00");
   const [category, setCategory] = useState<Category>("Meeting");
-  const [note, setNote] = useState("");
+  const [description, setDescription] = useState("");
 
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+
+  const bookableRooms = useMemo(
+    () => rooms.filter((room) => room.enabled !== false),
+    [rooms]
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -59,18 +64,18 @@ export function BookingFormModal({
       setStartTime(editingBooking.startTime);
       setEndTime(editingBooking.endTime);
       setCategory(editingBooking.category);
-      setNote(editingBooking.note ?? "");
+      setDescription(editingBooking.note ?? "");
     } else {
       setName(user?.displayName ?? "");
-      setRoomId(defaultRoomId ?? rooms[0]?.id ?? "");
+      setRoomId(defaultRoomId ?? bookableRooms[0]?.id ?? "");
       setDate(defaultDate);
       const start = defaultStartTime ?? "09:00";
       setStartTime(start);
       setEndTime(addOneHour(start));
       setCategory("Meeting");
-      setNote("");
+      setDescription("");
     }
-  }, [open, editingBooking, defaultRoomId, defaultDate, defaultStartTime, rooms, user]);
+  }, [open, editingBooking, defaultRoomId, defaultDate, defaultStartTime, bookableRooms, user]);
 
   function addOneHour(time: string): string {
     const [h, m] = time.split(":").map(Number);
@@ -87,7 +92,15 @@ export function BookingFormModal({
     if (!name.trim()) return setError("Please enter your name.");
     if (!roomId) return setError("Please choose a room.");
 
-    const input: NewBookingInput = { roomId, name: name.trim(), date, startTime, endTime, category, note: note.trim() };
+    const input: NewBookingInput = {
+      roomId,
+      name: name.trim(),
+      date,
+      startTime,
+      endTime,
+      category,
+      note: description.trim(),
+    };
     const room = rooms.find((r) => r.id === roomId);
     if (!room) return setError("Selected room could not be found.");
 
@@ -165,7 +178,7 @@ export function BookingFormModal({
                 value={roomId}
                 onChange={(e) => setRoomId(e.target.value)}
               >
-                {rooms.map((r) => (
+                {bookableRooms.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.name} — seats {r.capacity}
                   </option>
@@ -224,13 +237,13 @@ export function BookingFormModal({
             </div>
 
             <div>
-              <label className={labelClass} htmlFor="bf-note">Note (optional)</label>
+              <label className={labelClass} htmlFor="bf-description">Description (optional)</label>
               <textarea
-                id="bf-note"
+                id="bf-description"
                 className={inputClass}
                 rows={2}
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Agenda, dial-in details, etc."
               />
             </div>

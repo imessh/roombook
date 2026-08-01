@@ -46,7 +46,9 @@ function RoomsContent() {
     })();
   }, []);
 
-  const filtered = rooms.filter((r) => r.name.toLowerCase().includes(search.trim().toLowerCase()));
+  const filtered = rooms
+    .filter((r) => r.name.toLowerCase().includes(search.trim().toLowerCase()))
+    .filter((r) => r.enabled !== false);
 
   return (
     <AppShell>

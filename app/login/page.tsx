@@ -36,7 +36,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#eef2ff] via-[#ffffff] to-[#fff7ed] py-10 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#eef2ff] via-[#ffffff] to-[#fff7ed] pt-24 pb-10 px-4">
+      <div className="fixed inset-x-0 top-0 z-20 border-b border-line bg-white/95 px-4 py-3 backdrop-blur-sm md:hidden">
+        <div className="flex items-center justify-end gap-3">
+          <a href="#auth-form" className="rounded-2xl bg-sidebar-purple px-3 py-2 text-sm font-semibold text-white">
+            Login
+          </a>
+          <Link href="/signup#auth-form" className="rounded-2xl border border-line bg-white px-3 py-2 text-sm font-semibold text-sidebar-purple">
+            Sign up
+          </Link>
+        </div>
+      </div>
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr] items-center">
         <div className="overflow-hidden rounded-[2rem] bg-white/90 border border-white/70 shadow-[0_30px_80px_rgba(99,102,241,0.12)] p-10 backdrop-blur-xl">
           <div className="flex items-center gap-3 rounded-3xl bg-sidebar-purple/5 px-4 py-3 mb-8 border border-sidebar-purple/20">
@@ -102,7 +112,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-5 relative">
+          <form id="auth-form" onSubmit={handleSubmit} className="mt-8 space-y-5 relative">
             <div>
               <label className="block text-xs font-semibold text-ink-500 mb-2" htmlFor="email">
                 Work email

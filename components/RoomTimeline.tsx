@@ -63,8 +63,8 @@ export function RoomTimeline({
   return (
     <div className="bg-card rounded-3xl shadow-card overflow-hidden">
       <div
-        className="overflow-x-auto overflow-y-hidden px-3 sm:px-0"
-        style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x pinch-zoom" }}
+        className="overflow-x-auto overflow-y-visible px-3 sm:px-0"
+        style={{ WebkitOverflowScrolling: "touch" }}
       >
         <div className="min-w-full" style={{ minWidth: LABEL_WIDTH + hours.length * HOUR_WIDTH, minHeight: ROW_HEIGHT }}>
           {/* Header row */}

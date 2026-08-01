@@ -45,13 +45,18 @@ function DashboardContent() {
   const ongoing = bookings.filter((b) => getBookingStatus(b) === "Ongoing").length;
   const busyRoomIds = new Set(bookings.map((b) => b.roomId));
   const freeRooms = Math.max(rooms.length - busyRoomIds.size, 0);
-  const nextBooking = bookings[0];
+  const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+  const nextBooking = bookings
+    .filter((b) => toMinutes(b.endTime) >= currentMinutes)
+    .sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime))[0];
   const firstName = user?.displayName?.split(" ")[0] ?? "there";
   const seed = user?.email ?? user?.uid ?? "guest";
   const timelineMarkers = ["8 AM", "10 AM", "12 PM", "2 PM", "4 PM", "6 PM", "8 PM"];
   const timelineStart = 8 * 60;
   const timelineEnd = 20 * 60;
   const timelineSpan = timelineEnd - timelineStart;
+  const calendarHref = "/calendar";
+  const bookingHref = user ? "/calendar" : "/login";
 
   return (
     <AppShell>
@@ -72,7 +77,21 @@ function DashboardContent() {
           </div>
         </div>
         <div className="absolute right-0 top-0 hidden w-full justify-end md:flex md:static md:w-auto">
-          <UserMenu />
+          <div className="flex items-center gap-3">
+            <Link
+              href={calendarHref}
+              className="inline-flex items-center justify-center rounded-2xl border border-sidebar-purple/20 bg-white px-4 py-3 text-sm font-semibold text-sidebar-purple transition hover:bg-sidebar-purple/5"
+            >
+              View calendar
+            </Link>
+            <Link
+              href={bookingHref}
+              className="inline-flex items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-sidebar-purple/90"
+            >
+              Add booking
+            </Link>
+            <UserMenu />
+          </div>
         </div>
       </header>
 
@@ -111,17 +130,10 @@ function DashboardContent() {
             </div>
           </div>
           {nextBooking ? (
-            <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] items-start">
-              <div className="rounded-3xl bg-white p-4 border border-line text-center sm:text-left">
-                <p className="text-sm text-ink-500">{nextBooking.name}</p>
-                <p className="mt-1 text-base font-semibold text-ink-900">{minutesToLabel(toMinutes(nextBooking.startTime))} – {minutesToLabel(toMinutes(nextBooking.endTime))}</p>
-                <p className="mt-2 text-sm text-ink-500">{nextBooking.category} · {nextBooking.roomName}</p>
-              </div>
-              <div className="flex justify-center sm:justify-end">
-                <Link href="/calendar" className="inline-flex items-center justify-center rounded-2xl bg-sidebar-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-sidebar-purple/90">
-                  View calendar
-                </Link>
-              </div>
+            <div className="mt-4 rounded-3xl bg-white p-4 border border-line text-center sm:text-left">
+              <p className="text-sm text-ink-500">{nextBooking.name}</p>
+              <p className="mt-1 text-base font-semibold text-ink-900">{minutesToLabel(toMinutes(nextBooking.startTime))} – {minutesToLabel(toMinutes(nextBooking.endTime))}</p>
+              <p className="mt-2 text-sm text-ink-500">{nextBooking.category} · {nextBooking.roomName}</p>
             </div>
           ) : (
             <div className="mt-4 text-sm text-ink-500 text-center sm:text-left">No meetings are scheduled for the rest of today. Use the calendar to add the next one.</div>
